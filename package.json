@@ -1,0 +1,19 @@
+{
+  "name": "timer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.5.8"
+  },
+  "devDependencies": {
+    "angular": "^1.5.8",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.1"
+  },
+  "scripts": {
+    "wpdev": "webpack --progress --colors --watch --display-error-details"
+  },
+  "author": "",
+  "license": "ISC"
+}

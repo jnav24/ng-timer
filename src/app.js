@@ -2,7 +2,7 @@ var ng = require('angular');
 
 ng.module('myTimer', [])
 
-.controller('timer', function($scope, $interval, $log) {
+.controller('timer', function($scope, $interval, $filter, $log) {
 	var hour = 0,
 		minute = 0,
 		second = 0,
@@ -16,19 +16,21 @@ ng.module('myTimer', [])
 	$scope.second = zero + 0;
 	$scope.title = '';
 	$scope.title_error = 0;
-	$scope.timer = [
+	$scope.timer = [ 
 		{
-			title: 'Title',
-			description: 'Description',
-			time: 3.45
-		},
-		{
-			title: 'Test 1',
-			description: 'Description',
-			time: 0.08
+			title: 'Sample Title',
+			description: 'Sample Description',
+			start_time: new Date().getTime(),
+			end_time: new Date().getTime() + (2*40*60*1000),
+			time: 0
 		}
 	];
-	$scope.timing = 1;
+	$scope.show_start_timer = 1;
+	$scope.edit_mode = 0;
+
+	var getMins = function(mins) {
+		return (Math.round((mins/60) * 100)/100);
+	};
 
 	var getTime = function(time) {
 		if (time < 10) {
@@ -39,14 +41,12 @@ ng.module('myTimer', [])
 	};
 
 	var addToTimerList = function() {
-		if (second >= 30) {
-			minute++;
-		}
-
 		var time = {
 			title: $scope.title,
 			description: $scope.description,
-			time: hour + (Math.round((minute/60) * 100)/100)
+			start_time: new Date().getTime(),
+			end_time: new Date().getTime(),
+			time: 0
 		};
 
 		$scope.timer.unshift(time);
@@ -62,6 +62,24 @@ ng.module('myTimer', [])
 		$scope.second = zero + 0;
 	};
 
+	var updateEndTime = function() {
+		$scope.timer[0].end_time = new Date().getTime();
+	};
+
+	$scope.calcHours = function(index) {
+		if ($scope.timer[index].time > 0) {
+			return $scope.timer[index].time;
+		}
+
+		var start = $scope.timer[index].start_time,
+			end = $scope.timer[index].end_time,
+			calc_hour = new Date(end).getHours() - new Date(start).getHours();
+			calc_min = new Date(end).getMinutes() - new Date(start).getMinutes();
+
+		$scope.timer[index].time = calc_hour + getMins(calc_min);
+		return $scope.timer[index].time;
+	};
+
 	$scope.getTotal = function() {
 		var total = 0;
 
@@ -70,21 +88,11 @@ ng.module('myTimer', [])
 			$log.log(total);
 		});
 
-		// ng.forEach($scope.timer, function(value, key) {
-		// 	var split = value.time.split('.');
-		// 	total_minutes = total_minutes + parseInt(split[1], 10);
-
-		// 	if (total_minutes >= 60) {
-		// 		total_hours++;
-		// 		total_minutes = total_minutes - 60;
-		// 	}
-
-		// 	total_hours = total_hours + parseInt(split[0], 10);
-
-		// 	$log.log(value.time);
-		// });
-
 		return Math.round(total*100)/100;
+	};
+
+	$scope.modeEdit = function() {
+		$scope.edit_mode = !$scope.edit_mode;
 	};
 
 	$scope.isError = function() {
@@ -107,7 +115,8 @@ ng.module('myTimer', [])
 			return;
 		}
 
-		$scope.timing = 0;
+		$scope.show_start_timer = 0;
+		addToTimerList();
 
 		timer = $interval(function() {
 			second = second + 1;
@@ -135,8 +144,8 @@ ng.module('myTimer', [])
 		$event.preventDefault();
 		if ( ng.isDefined(timer) ) {
 			$interval.cancel(timer);
-			$scope.timing = 1;
-			addToTimerList();
+			$scope.show_start_timer = 1;
+			updateEndTime();
 			resetTimer();
 			timer = undefined;
 		}

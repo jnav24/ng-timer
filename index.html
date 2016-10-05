@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 	<style type="text/css">
 		body {
 			background: #efefef;
@@ -61,14 +62,16 @@
 		<textarea class="form-control" ng-model="description" placeholder="Description"></textarea>
 
 		<div class="buttons">
-			<a href="#" class="btn btn-success btn-block" ng-click="startTimer($event)" ng-show="timing">Start timer</a>
-			<a href="#" class="btn btn-danger btn-block" ng-click="stopTimer($event)" ng-show="!timing">End timer</a>
+			<a href="#" class="btn btn-success btn-block" ng-click="startTimer($event)" ng-show="show_start_timer">Start timer</a>
+			<a href="#" class="btn btn-danger btn-block" ng-click="stopTimer($event)" ng-show="!show_start_timer">End timer</a>
 		</div>
 
 		<table class="table table-striped table-bordered table-hover">
 			<thead>
 				<tr>
 					<td>Details</td>
+					<td>Start</td>
+					<td>End</td>
 					<td>Time</td>
 					<td>Actions</td>
 				</tr>
@@ -76,11 +79,26 @@
 			<tbody>
 				<tr ng-repeat="time in timer">
 					<td>
-						<h3>{{ time.title }}</h3>
-						<p>{{ time.description }}</p>
+						<div ng-if="!edit_mode">
+							<h3>{{ time.title }}</h3>
+							<p>{{ time.description }}</p>
+						</div>
+
+						<div ng-if="edit_mode">
+							<input type="text" value="{{ time.title }}" ng-model="time.title" class="form-control">
+							<textarea ng-model="time.description" class="form-control">{{ time.description }}</textarea>
+						</div>
 					</td>
-					<td>{{ time.time }}</td>
-					<td>Actions</td>
+					<td>{{ time.start_time | date : 'short' }}</td>
+					<td>{{ time.end_time | date : 'short' }}</td>
+					<td>
+						<p>{{ calcHours($index) }}</p>
+					</td>
+					<td>
+						<a href="#" ng-click="modeEdit($event)" class="btn btn-primary">
+							<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+						</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>

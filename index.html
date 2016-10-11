@@ -78,6 +78,9 @@
 				</tr>
 			</thead>
 			<tbody>
+				<tr ng-if="!timer.length">
+					<td colspan="5" style="text-align: center">Track something fool!</td>
+				</tr>
 				<tr ng-repeat="time in timer">
 					<td>
 						<div ng-if="!setModeEdit($index)">
@@ -112,7 +115,7 @@
 						<p>{{ calcHours($index) }}</p>
 					</td>
 					<td>
-						<div ng-if="!setModeEdit($index)">
+						<div ng-if="!setModeEdit($index) && isTimerRunning($index)">
 							<a href="#" ng-click="getModeEdit($event, $index)" class="btn btn-primary">
 								<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 							</a>

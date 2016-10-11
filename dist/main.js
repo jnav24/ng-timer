@@ -161,6 +161,13 @@
 			}
 		};
 
+		$scope.isTimerRunning = function($index) {
+			if ($index == 0 && !$scope.show_start_timer) {
+				return false;
+			}
+			return true;
+		};
+
 		$scope.removeTime = function($event, $index) {
 			$event.preventDefault();
 			$scope.timer.splice($index, 1);

@@ -80,31 +80,31 @@
 			<tbody>
 				<tr ng-repeat="time in timer">
 					<td>
-						<div ng-if="!edit_mode">
+						<div ng-if="!setModeEdit($index)">
 							<h3>{{ time.title }}</h3>
 							<p>{{ time.description }}</p>
 						</div>
 
-						<div ng-if="edit_mode">
+						<div ng-if="setModeEdit($index)">
 							<input type="text" value="{{ time.title }}" ng-model="time.title" class="form-control">
 							<textarea ng-model="time.description" class="form-control">{{ time.description }}</textarea>
 						</div>
 					</td>
 					<td>
-						<div ng-if="!edit_mode">
+						<div ng-if="!setModeEdit($index)">
 							<p>{{ time.start_time | date : 'short' }}</p>
 						</div>
 
-						<div ng-if="edit_mode">
+						<div ng-if="setModeEdit($index)">
 							<input date-time ng-model="time.start_time" readonly style="cursor: text">
 						</div>
 					</td>
 					<td>
-						<div ng-if="!edit_mode">
+						<div ng-if="!setModeEdit($index)">
 							<p>{{ time.end_time | date : 'short' }}</p>
 						</div>
 
-						<div ng-if="edit_mode">
+						<div ng-if="setModeEdit($index)">
 							<input date-time ng-model="time.end_time" readonly style="cursor: text">
 						</div>
 					</td>
@@ -112,18 +112,18 @@
 						<p>{{ calcHours($index) }}</p>
 					</td>
 					<td>
-						<div ng-if="!edit_mode">
-							<a href="#" ng-click="modeEdit($event)" class="btn btn-primary">
+						<div ng-if="!setModeEdit($index)">
+							<a href="#" ng-click="getModeEdit($event, $index)" class="btn btn-primary">
 								<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 							</a>
 
-							<a href="#" ng-click="removeTime($event)" class="btn btn-danger">
+							<a href="#" ng-click="removeTime($event, $index)" class="btn btn-danger">
 								<i class="fa fa-times" aria-hidden="true"></i>
 							</a>
 						</div>
 
-						<div ng-if="edit_mode">
-							<a href="#" ng-click="modeEdit($event)" class="btn btn-success">
+						<div ng-if="setModeEdit($index)">
+							<a href="#" ng-click="getModeEdit($event, $index)" class="btn btn-success">
 								<i class="fa fa-floppy-o" aria-hidden="true"></i>
 							</a>
 						</div>

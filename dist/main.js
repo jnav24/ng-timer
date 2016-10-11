@@ -61,6 +61,8 @@
 		$scope.minute = zero + 0;
 		$scope.rate = 25;
 		$scope.second = zero + 0;
+		$scope.set_mode_edit = {};
+		$scope.show_start_timer = 1;
 		$scope.title = '';
 		$scope.title_error = 0;
 		$scope.timer = [ 
@@ -70,10 +72,15 @@
 				start_time: new Date().getTime(),
 				end_time: new Date().getTime() + (2*40*60*1000),
 				time: 0.00
+			},
+			{
+				title: 'Sample Title',
+				description: 'Sample Description',
+				start_time: new Date().getTime(),
+				end_time: new Date().getTime() + (2*40*60*1000),
+				time: 0.00
 			}
 		];
-		$scope.show_start_timer = 1;
-		$scope.edit_mode = 0;
 		$scope.test_date = new Date().getTime();
 
 		var getMins = function(mins) {
@@ -115,12 +122,12 @@
 		};
 
 		$scope.calcHours = function(index) {
-			if ($scope.timer[index].time > 0) {
-				// return $scope.timer[index].time;
-			}
-
 			$scope.timer[index].start_time = new Date($scope.timer[index].start_time).getTime();
 			$scope.timer[index].end_time = new Date($scope.timer[index].end_time).getTime();
+
+			if ($scope.timer[index].start_time > $scope.timer[index].end_time) {
+				return 0.00;
+			}
 
 			var start_time = new Date($scope.timer[index].start_time).getTime(),
 				end_time = new Date($scope.timer[index].end_time).getTime(),
@@ -141,11 +148,6 @@
 			return Math.round(total*100)/100;
 		};
 
-		$scope.modeEdit = function($event) {
-			$event.preventDefault();
-			$scope.edit_mode = !$scope.edit_mode;
-		};
-
 		$scope.modeSave = function($event) {
 			$scope.modeEdit($event);
 		};
@@ -159,8 +161,9 @@
 			}
 		};
 
-		$scope.removeTime = function($event) {
+		$scope.removeTime = function($event, $index) {
 			$event.preventDefault();
+			$scope.timer.splice($index, 1);
 		};
 
 		$scope.startTimer = function($event) {
@@ -208,6 +211,21 @@
 				resetTimer();
 				timer = undefined;
 			}
+		};
+
+
+		$scope.setModeEdit = function($index) {
+			if (typeof $scope.set_mode_edit[$index] == 'undefined') {
+				$scope.set_mode_edit[$index] = 0;
+				return $scope.set_mode_edit[$index];
+			}
+
+			return $scope.set_mode_edit[$index];
+		};
+
+		$scope.getModeEdit = function($event, $index) {
+			$event.preventDefault();
+			return $scope.set_mode_edit[$index] = !$scope.set_mode_edit[$index];
 		};
 	})
 

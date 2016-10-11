@@ -6,47 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/angular-datepicker.css">
 	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-	<style type="text/css">
-		body {
-			background: #efefef;
-		}
-
-		.countdown {
-			margin-bottom: 20px;
-			text-align: center;											
-		}
-
-		.countdown span {
-			border: 2px solid #cdcdcd;
-			border-radius: 10px;
-			color: #aaa;
-			display: inline-block;
-			font-size: 36px;
-			padding: 10px 30px;
-		
-			/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#efefef+0,efefef+53,ffffff+53,ffffff+100 */
-			background: #efefef; /* Old browsers */
-			background: -webkit-linear-gradient(#efefef 0%, #efefef 53%, #ffffff 53%, #ffffff 100%);
-			background: -o-linear-gradient(#efefef 0%, #efefef 53%, #ffffff 53%, #ffffff 100%);
-			background: linear-gradient(#efefef 0%, #efefef 53%, #ffffff 53%, #ffffff 100%); /* FF3.6-15 */ /* Chrome10-25,Safari5.1-6 */ /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
-		}
-
-		input {
-			margin-bottom: 10px;
-		}
-
-		.buttons {
-			margin: 20px 0;
-		}
-		
-		.timer {
-			background: #fff;
-			margin: 0 auto;
-			padding: 20px;
-			width: 1000px;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<script type="text/javascript" src="dist/main.js"></script>
 </head>
 <body>
@@ -81,7 +41,7 @@
 				<tr ng-if="!timer.length">
 					<td colspan="5" style="text-align: center">Track something fool!</td>
 				</tr>
-				<tr ng-repeat="time in timer">
+				<tr ng-repeat="time in timer" ng-class="{'fade': timer.length > 1}">
 					<td>
 						<div ng-if="!setModeEdit($index)">
 							<h3>{{ time.title }}</h3>

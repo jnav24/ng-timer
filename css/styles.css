@@ -1,0 +1,61 @@
+body {
+	background: #efefef;
+}
+
+.countdown {
+	margin-bottom: 20px;
+	text-align: center;											
+}
+
+.countdown span {
+	border: 2px solid #cdcdcd;
+	border-radius: 10px;
+	color: #aaa;
+	display: inline-block;
+	font-size: 36px;
+	padding: 10px 30px;
+
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#efefef+0,efefef+53,ffffff+53,ffffff+100 */
+	background: #efefef; /* Old browsers */
+	background: -webkit-linear-gradient(#efefef 0%, #efefef 53%, #ffffff 53%, #ffffff 100%);
+	background: -o-linear-gradient(#efefef 0%, #efefef 53%, #ffffff 53%, #ffffff 100%);
+	background: linear-gradient(#efefef 0%, #efefef 53%, #ffffff 53%, #ffffff 100%); /* FF3.6-15 */ /* Chrome10-25,Safari5.1-6 */ /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+}
+
+input {
+	margin-bottom: 10px;
+}
+
+.buttons {
+	margin: 20px 0;
+}
+
+.timer {
+	background: #fff;
+	margin: 0 auto;
+	padding: 20px;
+	width: 1000px;
+}
+
+.fade {
+  transition: 0.5s linear all;
+  -webkit-transition: 0.5s linear all;
+  opacity: 1;
+}
+
+.fade.ng-enter {
+  opacity: 0;
+}
+
+.fade.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+
+.fade.ng-leave {
+  opacity: 1;
+}
+
+.fade.ng-leave.ng-leave-active {
+  opacity: 0;
+}

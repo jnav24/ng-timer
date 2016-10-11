@@ -1,7 +1,8 @@
 var ng = require('angular');
 var ng_datepicker = require('angular-datepicker');
+var ng_animate = require('angular-animate');
 
-ng.module('myTimer', ['datePicker'])
+ng.module('myTimer', ['datePicker', 'ngAnimate'])
 
 .controller('timer', function($scope, $interval, $filter, $log) {
 	var hour = 0,
@@ -20,13 +21,6 @@ ng.module('myTimer', ['datePicker'])
 	$scope.title = '';
 	$scope.title_error = 0;
 	$scope.timer = [ 
-		{
-			title: 'Sample Title',
-			description: 'Sample Description',
-			start_time: new Date().getTime(),
-			end_time: new Date().getTime() + (2*40*60*1000),
-			time: 0.00
-		},
 		{
 			title: 'Sample Title',
 			description: 'Sample Description',

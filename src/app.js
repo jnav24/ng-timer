@@ -1,6 +1,7 @@
 var ng = require('angular');
+var ng_datepicker = require('angular-datepicker');
 
-ng.module('myTimer', [])
+ng.module('myTimer', ['datePicker'])
 
 .controller('timer', function($scope, $interval, $filter, $log) {
 	var hour = 0,
@@ -22,11 +23,12 @@ ng.module('myTimer', [])
 			description: 'Sample Description',
 			start_time: new Date().getTime(),
 			end_time: new Date().getTime() + (2*40*60*1000),
-			time: 0
+			time: 0.00
 		}
 	];
 	$scope.show_start_timer = 1;
 	$scope.edit_mode = 0;
+	$scope.test_date = new Date().getTime();
 
 	var getMins = function(mins) {
 		return (Math.round((mins/60) * 100)/100);
@@ -46,7 +48,7 @@ ng.module('myTimer', [])
 			description: $scope.description,
 			start_time: new Date().getTime(),
 			end_time: new Date().getTime(),
-			time: 0
+			time: 0.00
 		};
 
 		$scope.timer.unshift(time);
@@ -68,15 +70,17 @@ ng.module('myTimer', [])
 
 	$scope.calcHours = function(index) {
 		if ($scope.timer[index].time > 0) {
-			return $scope.timer[index].time;
+			// return $scope.timer[index].time;
 		}
 
-		var start = $scope.timer[index].start_time,
-			end = $scope.timer[index].end_time,
-			calc_hour = new Date(end).getHours() - new Date(start).getHours();
-			calc_min = new Date(end).getMinutes() - new Date(start).getMinutes();
+		$scope.timer[index].start_time = new Date($scope.timer[index].start_time).getTime();
+		$scope.timer[index].end_time = new Date($scope.timer[index].end_time).getTime();
 
-		$scope.timer[index].time = calc_hour + getMins(calc_min);
+		var start_time = new Date($scope.timer[index].start_time).getTime(),
+			end_time = new Date($scope.timer[index].end_time).getTime(),
+			exact_hours = Math.abs(end_time - start_time)/(60*60*1000);
+
+		$scope.timer[index].time = parseFloat(exact_hours).toFixed(2);
 		return $scope.timer[index].time;
 	};
 
@@ -84,15 +88,20 @@ ng.module('myTimer', [])
 		var total = 0;
 
 		ng.forEach($scope.timer, function(value, key) {
+			value.time = parseFloat(value.time);
 			total = total + value.time;
-			$log.log(total);
 		});
 
 		return Math.round(total*100)/100;
 	};
 
-	$scope.modeEdit = function() {
+	$scope.modeEdit = function($event) {
+		$event.preventDefault();
 		$scope.edit_mode = !$scope.edit_mode;
+	};
+
+	$scope.modeSave = function($event) {
+		$scope.modeEdit($event);
 	};
 
 	$scope.isError = function() {
@@ -102,6 +111,10 @@ ng.module('myTimer', [])
 		else {
 			$scope.title_error = 0;
 		}
+	};
+
+	$scope.removeTime = function($event) {
+		$event.preventDefault();
 	};
 
 	$scope.startTimer = function($event) {
